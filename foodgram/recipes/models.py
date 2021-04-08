@@ -93,11 +93,12 @@ class Ingredient(models.Model):
         verbose_name='Название ингредиента',
     )
     unit = models.CharField(
-        max_length=200,
+        max_length=10,
         verbose_name='Единица измерения',
     )
     hasQuantity = models.SlugField(
         default=True,
+        null=True,
         verbose_name='Содержит количество',
     )
 
