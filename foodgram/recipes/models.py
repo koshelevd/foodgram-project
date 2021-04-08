@@ -30,7 +30,6 @@ class Recipe(models.Model):
     )
     tag = models.ManyToManyField(
         'Tag',
-        on_delete=models.SET_NULL,
         related_name='recipes',
         verbose_name='Тэги',
     )
