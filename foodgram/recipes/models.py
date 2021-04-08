@@ -8,7 +8,7 @@ class Recipe(models.Model):
     """
     Stores a single Recipe entry.
 
-    Related to :model:'auth.User' and :model:'posts.Group'. !!!
+    Related to :model:'auth.User' and :model:'recipes.Tag'. !!!
     """
 
     title = models.CharField(
@@ -28,11 +28,11 @@ class Recipe(models.Model):
         related_name='recipes',
         verbose_name='Автор',
     )
-    tag = models.ManyToManyField(
-        'Tag',
-        related_name='recipes',
-        verbose_name='Тэги',
-    )
+    # tag = models.ManyToManyField(
+    #     'Tag',
+    #     related_name='recipes',
+    #     verbose_name='Тэги',
+    # )
     image = models.ImageField(
         upload_to='recipes/',
         verbose_name='Изображение',
@@ -64,6 +64,11 @@ class Tag(models.Model):
     title = models.CharField(
         max_length=200,
         verbose_name='Название тэга',
+    )
+    recipe = models.ManyToManyField(
+        'Recipe',
+        related_name='tags',
+        verbose_name='Рецепты',
     )
     slug = models.SlugField(
         max_length=250,
