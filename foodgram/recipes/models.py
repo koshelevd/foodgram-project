@@ -106,7 +106,7 @@ class Ingredient(models.Model):
         max_length=10,
         verbose_name='Единица измерения',
     )
-    hasQuantity = models.SlugField(
+    hasQuantity = models.BooleanField(
         default=True,
         null=True,
         verbose_name='Содержит количество',
