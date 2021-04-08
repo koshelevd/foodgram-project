@@ -28,11 +28,11 @@ class Recipe(models.Model):
         related_name='recipes',
         verbose_name='Автор',
     )
-    # tag = models.ManyToManyField(
-    #     'Tag',
-    #     related_name='recipes',
-    #     verbose_name='Тэги',
-    # )
+    tags = models.ManyToManyField(
+        'Tag',
+        related_name='recipes',
+        verbose_name='Тэги',
+    )
     image = models.ImageField(
         upload_to='recipes/',
         verbose_name='Изображение',
@@ -65,17 +65,22 @@ class Tag(models.Model):
         max_length=200,
         verbose_name='Название тэга',
     )
-    recipe = models.ManyToManyField(
-        'Recipe',
-        related_name='tags',
-        verbose_name='Рецепты',
-    )
+    # recipe = models.ManyToManyField(
+    #     'Recipe',
+    #     blank=True,
+    #     related_name='tags',
+    #     verbose_name='Рецепты',
+    # )
     slug = models.SlugField(
         max_length=250,
+        blank=True,
+        null=True,
         unique=True,
         verbose_name='ЧПУ тэга',
     )
     description = models.TextField(
+        blank=True,
+        null=True,
         verbose_name='Описание тэга',
     )
 

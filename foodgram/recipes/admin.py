@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from recipes.models import Recipe, Tag, Ingredient
+from recipes.models import Ingredient, Recipe, RecipeComposition, Tag
 
 
-class TagsInline(admin.TabularInline):
-    model = Tag.recipe.through
+class CompositionInline(admin.StackedInline):
+    model = RecipeComposition
     extra = 0
 
 
@@ -13,13 +13,19 @@ class RecipeAdmin(admin.ModelAdmin):
     """Manage recipes."""
 
     list_display = (
-        'title',
-        'text',
         'pub_date',
         'author',
-        'image',
-        'time',
+        'title',
         'slug',
+    )
+    fields = (
+        'author',
+        'title',
+        'slug',
+        'text',
+        'time',
+        'image',
+        'tags',
     )
     search_fields = (
         'title',
@@ -27,7 +33,7 @@ class RecipeAdmin(admin.ModelAdmin):
     list_filter = ('pub_date',)
     empty_value_display = '-пусто-'
     prepopulated_fields = {'slug': ('title',)}
-    inlines = (TagsInline,)
+    inlines = (CompositionInline,)
 
 
 @admin.register(Tag)
