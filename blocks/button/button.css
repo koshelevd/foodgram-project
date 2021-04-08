@@ -7,14 +7,15 @@
     border-radius: 6px;
     padding: 12px 24px;
     height: 48px;
-    line-height: 1;
+    line-height: 1.22;
     text-decoration: none;
     border: 1px solid transparent;
-    transition: background 0.2s;
+    transition: background .2s;
     outline: none;
     user-select: none;
     cursor: pointer;
     width: max-content;
+
 }
 .button:active {
     box-shadow: 0 0 7px #ddd;
