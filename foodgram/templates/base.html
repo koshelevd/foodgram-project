@@ -11,32 +11,25 @@
   <title>Проект &laquo;Foodgram&raquo;&nbsp;&mdash;&nbsp;{% block title %}Foodgram{% endblock %}</title>
   {% load static %}
   {% block styles %}
-    <link rel="stylesheet" href="./pages/single.css">
+    <link rel="stylesheet" href="{% static 'pages/single.css' %}">
   {% endblock %}
 </head>
 
 <body class="body">
-  <header class="header">
-    {% block nav %}
-      {% include './includes/nav_notauth.html' %}
-    {% endblock %}
-  </header>
+  {% include 'includes/header.html' %}
 
   <main class="main container">
     {% block main %}{% endblock %}
   </main>
 
-  {% include './includes/footer.html' %}
+  {% include 'includes/footer.html' %}
 
   {% block scripts %}
-    <script src="./js/components/Purchases.js"></script>
-    <script src="./js/config/config.js"></script>
-
-    <script src="./js/components/MainCards.js"></script>
-    <script src="./js/components/SingleCard.js"></script>
-    <script src="./js/components/Header.js"></script>
-
-    <script src="./js/api/Api.js"></script>
+    <script src="{% static 'js/components/Purchases.js' %}"></script>
+    <script src="{% static 'js/config/config.js' %}"></script>
+    <script src="{% static 'js/components/MainCards.js' %}"></script>
+    <script src="{% static 'js/components/SingleCard.js' %}"></script>
+    <script src="{% static 'js/components/Header.js' %}"></script>
     <script src="singlePageNotAuth.js"></script>
   {% endblock %}
 </body>
