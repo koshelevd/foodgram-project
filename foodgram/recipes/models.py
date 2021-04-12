@@ -83,6 +83,11 @@ class Tag(models.Model):
         null=True,
         verbose_name='Описание тэга',
     )
+    style = models.CharField(
+        max_length=50,
+        default='orange',
+        verbose_name='Css постфикс тэга',
+    )
 
     def __str__(self):
         """Return overrided title of the tag."""
