@@ -1,16 +1,16 @@
 <div class="card" data-id="120">
-  <a href="#" class="link" target="_blank">
+  <a href="{% url 'recipe' recipe.author.username recipe.slug %}" class="link"
+     target="_blank">
     {% load thumbnail %}
     {% thumbnail recipe.image "x240" as im %}
       <img src="{{ im.url }}" alt="{{ recipe.title }}" class="card__image">
     {% endthumbnail %}
   </a>
   <div class="card__body">
-    <a class="card__title link" href="#" target="_blank">{{ recipe.title }}</a>
+    <a class="card__title link" href="{% url 'recipe' recipe.author.username recipe.slug %}" target="_blank">{{ recipe.title }}</a>
     <ul class="card__items">
       {% for tag in recipe.tags.all %}
-        <li
-          class="card__item">
+        <li class="card__item">
           <span class="badge badge_style_{{ tag.style }}">{{ tag.title }}</span>
         </li>
       {% endfor %}
