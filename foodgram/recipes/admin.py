@@ -3,7 +3,7 @@ from django.contrib import admin
 from recipes.models import Ingredient, Recipe, RecipeComposition, Tag
 
 
-class CompositionInline(admin.StackedInline):
+class CompositionInline(admin.TabularInline):
     model = RecipeComposition
     extra = 0
 
@@ -60,11 +60,11 @@ class IngredientAdmin(admin.ModelAdmin):
 
     list_display = (
         'pk',
-        'title',
+        'name',
         'unit',
         'hasQuantity',
     )
     search_fields = (
-        'title',
+        'name',
     )
     empty_value_display = '-пусто-'

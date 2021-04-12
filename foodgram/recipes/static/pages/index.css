@@ -79,7 +79,9 @@
 @import "../blocks/icon-user/icon-user.css";
 @import "../blocks/icon-plus/icon-plus.css";
 @import "../blocks/icon-left/icon-left.css";
+@import "../blocks/icon-left/_inactive/icon-left_inactive.css";
 @import "../blocks/icon-right/icon-right.css";
+@import "../blocks/icon-right/_inactive/icon-right_inactive.css";
 
 @import "../blocks/icon-favorite/icon-favorite.css";
 @import "../blocks/icon-favorite/_active/icon-favorite_active.css";

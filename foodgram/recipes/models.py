@@ -28,6 +28,12 @@ class Recipe(models.Model):
         related_name='recipes',
         verbose_name='Автор',
     )
+    ingredients = models.ManyToManyField(
+        'Ingredient',
+        through='RecipeComposition',
+        related_name='recipes',
+        verbose_name='Тэги',
+    )
     tags = models.ManyToManyField(
         'Tag',
         related_name='recipes',
@@ -65,12 +71,6 @@ class Tag(models.Model):
         max_length=200,
         verbose_name='Название тэга',
     )
-    # recipe = models.ManyToManyField(
-    #     'Recipe',
-    #     blank=True,
-    #     related_name='tags',
-    #     verbose_name='Рецепты',
-    # )
     slug = models.SlugField(
         max_length=250,
         blank=True,
@@ -98,12 +98,12 @@ class Tag(models.Model):
 class Ingredient(models.Model):
     """Stores a single ingredient entry."""
 
-    title = models.CharField(
+    name = models.CharField(
         max_length=200,
         verbose_name='Название ингредиента',
     )
     unit = models.CharField(
-        max_length=10,
+        max_length=50,
         verbose_name='Единица измерения',
     )
     hasQuantity = models.BooleanField(
@@ -114,7 +114,7 @@ class Ingredient(models.Model):
 
     def __str__(self):
         """Return overrided title of the ingredient."""
-        return f'{self.title}, {self.unit}'
+        return f'{self.name}, {self.unit}'
 
     class Meta():
         """Adds meta-information."""
