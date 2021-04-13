@@ -10,6 +10,4 @@ urlpatterns = [
     path('new-recipe/',
          views.new_recipe,
          name='new_recipe'),
-    path('ingredients/',
-         views.get_ing),
 ]

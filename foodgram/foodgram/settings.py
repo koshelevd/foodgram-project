@@ -33,8 +33,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sorl.thumbnail',
+    'rest_framework',
     'recipes',
     'users',
+    'api',
     'debug_toolbar',
 ]
 
