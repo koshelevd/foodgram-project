@@ -67,6 +67,7 @@ function Ingredients() {
         };
         clearValue(nameIngredient);
         clearValue(cantidad);
+        cantidadVal.textContent = '';
         return data;
     };
     // очистка инпута

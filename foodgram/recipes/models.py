@@ -15,7 +15,7 @@ class Recipe(models.Model):
         max_length=200,
         verbose_name='Название рецепта',
     )
-    text = models.TextField(
+    description = models.TextField(
         verbose_name='Содержание рецепта',
     )
     pub_date = models.DateTimeField(
@@ -48,6 +48,7 @@ class Recipe(models.Model):
     )
     slug = models.SlugField(
         max_length=250,
+        blank=True,
         unique=True,
         verbose_name='ЧПУ рецепта',
     )

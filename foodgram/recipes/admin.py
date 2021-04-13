@@ -22,7 +22,7 @@ class RecipeAdmin(admin.ModelAdmin):
         'author',
         'title',
         'slug',
-        'text',
+        'description',
         'time',
         'image',
         'tags',
