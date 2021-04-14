@@ -3,6 +3,10 @@ from django.contrib import admin
 from recipes.models import Ingredient, Recipe, RecipeComposition, Tag
 
 
+@admin.register(RecipeComposition)
+class CompositionAdmin(admin.ModelAdmin):
+    pass
+
 class CompositionInline(admin.TabularInline):
     model = RecipeComposition
     extra = 0

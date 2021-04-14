@@ -53,7 +53,7 @@
             name="subscribe" data-out>Подписаться на автора</button></li>
       </ul>
       <div class="single-card__section">
-        <h3 class="single-card__section-title">Ингридиенты:</h3>
+        <h3 class="single-card__section-title">Ингредиенты:</h3>
         <div class="single-card__items single-card__items_column">
           {% for item in recipe.composition.all %}
             <p class=" single-card__section-item">
@@ -66,7 +66,7 @@
       <div class="single-card__section">
         <h3 class="single-card__section-title">Описание:</h3>
         {% load user_filters %}
-        {{ recipe.text|as_p:"single-card__section-text"|safe }}
+        {{ recipe.description|as_p:"single-card__section-text"|safe }}
       </div>
     </div>
   </div>
