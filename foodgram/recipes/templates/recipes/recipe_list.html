@@ -23,12 +23,12 @@
     </ul>
   </div>
   <div class="card-list">
-    {% for recipe in page %}
+    {% for recipe in object_list %}
       {% include "recipes/recipe_card.html" with recipe=recipe %}
     {% endfor %}
   </div>
-  {% if page.has_other_pages %}
-    {% include "includes/paginator.html" with items=page paginator=paginator%}
+  {% if is_paginated %}
+    {% include "includes/paginator.html" with items=page_obj paginator=paginator%}
   {% endif %}
 {% endblock %}
 

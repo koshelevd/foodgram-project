@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils.text import slugify
 
 User = get_user_model()
 
@@ -44,7 +45,7 @@ class Recipe(models.Model):
         verbose_name='Изображение',
     )
     time = models.IntegerField(
-        verbose_name='Время приготовления (мин.)',
+        verbose_name='Время приготовления',
     )
     slug = models.SlugField(
         max_length=250,
@@ -52,6 +53,11 @@ class Recipe(models.Model):
         unique=True,
         verbose_name='ЧПУ рецепта',
     )
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(self.title)
+            super(Recipe, self).save(*args, **kwargs)
 
     def __str__(self):
         """Return recipes's info."""
