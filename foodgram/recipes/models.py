@@ -31,6 +31,7 @@ class Recipe(models.Model):
     )
     ingredients = models.ManyToManyField(
         'Ingredient',
+        blank=True,
         through='RecipeComposition',
         related_name='recipes',
         verbose_name='Тэги',
@@ -39,6 +40,11 @@ class Recipe(models.Model):
         'Tag',
         related_name='recipes',
         verbose_name='Тэги',
+    )
+    favorites = models.ManyToManyField(
+        'User',
+        related_name='recipes',
+        verbose_name='Избранное',
     )
     image = models.ImageField(
         upload_to='recipes/',
@@ -54,10 +60,10 @@ class Recipe(models.Model):
         verbose_name='ЧПУ рецепта',
     )
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.title)
-            super(Recipe, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.id:
+    #         self.slug = slugify(self.title)
+    #         super(Recipe, self).save(*args, **kwargs)
 
     def __str__(self):
         """Return recipes's info."""
