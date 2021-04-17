@@ -41,11 +41,7 @@ class Recipe(models.Model):
         related_name='recipes',
         verbose_name='Тэги',
     )
-    favorites = models.ManyToManyField(
-        'User',
-        related_name='recipes',
-        verbose_name='Избранное',
-    )
+
     image = models.ImageField(
         upload_to='recipes/',
         verbose_name='Изображение',

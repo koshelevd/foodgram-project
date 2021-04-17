@@ -1,12 +1,11 @@
 from django.core.exceptions import ValidationError, BadRequest
 from django.db import transaction, IntegrityError
-from django.forms import ModelForm, inlineformset_factory, Textarea, \
-    CheckboxSelectMultiple, HiddenInput
-from django.http import HttpResponseBadRequest, HttpResponseServerError
+from django.forms import ModelForm, Textarea, \
+    CheckboxSelectMultiple
 from django.shortcuts import get_object_or_404
 from pytils.translit import slugify
 
-from recipes.models import Recipe, RecipeComposition, Ingredient
+from apps.recipes.models import Recipe, RecipeComposition, Ingredient
 
 
 class RecipeForm(ModelForm):

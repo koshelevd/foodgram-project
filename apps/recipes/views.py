@@ -1,16 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator
-from django.db import IntegrityError, transaction
-from django.http import HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from django.utils.text import slugify
-from django.views.generic import ListView, DetailView, FormView
-from django.views.generic.edit import ModelFormMixin, CreateView
+from django.views.generic import ListView, DetailView
 
-from recipes.forms import RecipeForm
-from recipes.models import Recipe, User, Ingredient, RecipeComposition
+from apps.recipes.forms import RecipeForm
+from apps.recipes.models import Recipe
 
 
 class RecipeList(ListView):

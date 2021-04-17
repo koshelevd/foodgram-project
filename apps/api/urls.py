@@ -9,10 +9,17 @@ from django.urls import include, path
 # users_router = DefaultRouter()
 # users_router.register('users', UserViewSet)
 #
+from rest_framework.routers import DefaultRouter
 
 from . import views
+from .views import FavoritesView
+
+router = DefaultRouter()
+
+router.register('favorites', FavoritesView)
 
 urlpatterns_api_v1 = [
+    path('', include(router.urls)),
     path('ingredients/', views.api_get_ingredients,
          name='get_ingredients'),
 ]

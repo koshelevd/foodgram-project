@@ -1,7 +1,8 @@
 """Serializers of the 'api' app."""
 from rest_framework import serializers
 
-from recipes.models import Ingredient
+from apps.api.models import Favorite
+from apps.recipes.models import Ingredient
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -10,3 +11,11 @@ class IngredientSerializer(serializers.ModelSerializer):
 
         fields = '__all__'
         model = Ingredient
+
+
+class FavoriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        """Adds meta-information."""
+
+        fields = '__all__'
+        model = Favorite

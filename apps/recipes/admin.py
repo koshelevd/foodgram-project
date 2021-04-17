@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from recipes.models import Ingredient, Recipe, RecipeComposition, Tag
+from apps.recipes.models import Ingredient, Recipe, RecipeComposition, Tag
 
 
 @admin.register(RecipeComposition)
