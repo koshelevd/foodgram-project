@@ -3,14 +3,52 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
-from apps.recipes.forms import RecipeForm
-from apps.recipes.models import Recipe
+from apps.recipes.forms import RecipeForm, TagForm
+from apps.recipes.models import Recipe, Tag, User
 
 
 class RecipeList(ListView):
     model = Recipe
     paginate_by = 6
 
+    def get_queryset(self):
+        default_filter = [tag.pk for tag in Tag.objects.all()]
+        filter = self.request.GET.getlist('tags', default_filter)
+        print(filter)
+        queryset = Recipe.objects.filter(tags__in=filter).distinct()
+        print(queryset)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tags'] = Tag.objects.all()
+        context['form'] = TagForm(self.request.GET or None)
+        return context
+
+
+class FavoritesList(RecipeList):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        author = get_object_or_404(User, username=self.request.user)
+        all_favorites = author.favorite.all().values('recipe')
+        return queryset.filter(id__in=all_favorites)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['favorites'] = True
+        return context
+
+
+class AuthorList(RecipeList):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        author = get_object_or_404(User, username=self.kwargs['username'])
+        return queryset.filter(author=author)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['author'] = get_object_or_404(User, username=self.kwargs['username'])
+        return context
 
 class RecipeDetail(DetailView):
     model = Recipe

@@ -1,0 +1,22 @@
+{% load user_filters %}
+<form method="get">
+  <div class="tags">
+    {% for tag in form.fields.tags.choices.queryset %}
+      <div class="tags__item">
+        <input
+            type="checkbox"
+            name="tags"
+            id="id_{{ tag.id }}"
+            value="{{ tag.id }}"
+            {% if tag.id in form.tags.value|intmap %}
+            checked="true"
+            {% endif %}
+            class="tags__checkbox tags__checkbox_style_{{ tag.style }}"
+            onChange="this.form.submit()">
+        <label for="id_{{ tag.id }}" class="tags__label">
+          {{ tag.title }}
+        </label>
+      </div>
+    {% endfor %}
+  </div>
+</form>

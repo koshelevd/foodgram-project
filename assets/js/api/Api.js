@@ -78,13 +78,14 @@ class Api {
       })
   }
   addFavorites(id) {
-    return fetch(`${this._apiUrl}favorites`, {
+    return fetch(`${this._apiUrl}favorites/`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value
       },
       body: JSON.stringify({
-        id: id
+        recipe: id
       })
     })
       .then(e => {
@@ -98,12 +99,13 @@ class Api {
     return fetch(`${this._apiUrl}favorites/${id}`, {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value
       }
     })
       .then(e => {
         if (e.ok) {
-          return e.json()
+          return e.json();
         }
         return Promise.reject(e.statusText)
       })

@@ -1,27 +1,32 @@
 {% extends "base.html" %}
-{% block title %} Главная {% endblock %}
+{% block title %}
+  {% if favorites %}
+    Избранное
+  {% else %}
+    Главная
+  {% endif %}
+{% endblock %}
 {% load static %}
 {% block styles %}
   <link rel="stylesheet" href="{% static 'pages/index.css' %}">
 {% endblock %}
 {% block main %}
+  {% csrf_token %}
   <div class="main__header">
-    <h1 class="main__title">Рецепты</h1>
-    <ul class="tags">
-      <li class="tags__item">
-        <a id="breakfast" class="tags__checkbox tags__checkbox_style_orange tags__checkbox_active" href="#"></a>
-        <span class="tags__label">Завтрак</span>
-      </li>
-      <li class="tags__item">
-        <a id="lunch" class="tags__checkbox tags__checkbox_style_green tags__checkbox_active" href="#"></a>
-        <span for="lunch" class="tags__label">Обед</span>
-      </li>
-      <li class="tags__item">
-        <a id="dinner" class="tags__checkbox tags__checkbox_style_purple tags__checkbox_active" href="#"></a>
-        <label for="dinner" class="tags__label">Ужин</label>
-      </li>
-    </ul>
+    <h1 class="main__title">
+      {% if favorites %}
+        Избранное
+      {% elif author %}
+        {{ author.get_full_name }}
+      {% else %}
+        Рецепты
+      {% endif %}
+    </h1>
+    {% include 'recipes/includes/filter.html' %}
   </div>
+        <div class="author-subscribe" data-author="323">
+            <p style="padding: 0 0 2em 0;"><button class="button button_style_light-blue button_size_subscribe" name="subscribe" data-out>Подписаться на автора</button></p>
+        </div>
   <div class="card-list">
     {% for recipe in object_list %}
       {% include "recipes/recipe_card.html" with recipe=recipe %}
@@ -45,6 +50,6 @@
     <script src="{% static 'pages/indexAuth.js' %}"></script>
   {% else %}
     <script src="{% static 'pages/indexNotAuth.js' %}"></script>
-    {% endif %}
+  {% endif %}
 {% endblock %}
 

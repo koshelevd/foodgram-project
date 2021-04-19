@@ -1,11 +1,20 @@
 from django.core.exceptions import ValidationError, BadRequest
 from django.db import transaction, IntegrityError
 from django.forms import ModelForm, Textarea, \
-    CheckboxSelectMultiple
+    CheckboxSelectMultiple, SelectMultiple
 from django.shortcuts import get_object_or_404
 from pytils.translit import slugify
 
-from apps.recipes.models import Recipe, RecipeComposition, Ingredient
+from apps.recipes.models import Recipe, RecipeComposition, Ingredient, Tag
+
+
+class TagForm(ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ('tags',)
+        widgets = {
+            'tags': SelectMultiple(),
+        }
 
 
 class RecipeForm(ModelForm):

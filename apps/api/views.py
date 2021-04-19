@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
@@ -14,7 +14,12 @@ class FavoritesView(mixins.CreateModelMixin,
                     viewsets.GenericViewSet):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
+    lookup_field = 'recipe'
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(data={}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])

@@ -1,4 +1,4 @@
-<div class="card" data-id="120">
+<div class="card" data-id="{{ recipe.pk }}">
   <a href="{% url 'recipe' recipe.author.username recipe.slug %}" class="link"
      target="_blank">
     {% load thumbnail %}
@@ -22,14 +22,25 @@
       </p>
       <p class="card__text">
         <span class="icon-user"></span>
-        <a href="#" style="color: black">{{ recipe.author.get_full_name }}</a>
+        <a href="{% url 'authorlist' recipe.author %}" style="color: black">
+          {{ recipe.author.get_full_name }}
+        </a>
       </p>
     </div>
   </div>
   <div class="card__footer">
+    {% load user_filters %}
     <button class="button button_style_light-blue" name="purchases" data-out><span
         class="icon-plus button__icon"></span>Добавить в покупки</button>
-    <button class="button button_style_none" name="favorites" data-out><span
-        class="icon-favorite"></span></button>
+
+    <button class="button button_style_none" name="favorites"
+      {% if recipe|isfavorite:user %}
+        >
+        <span class="icon-favorite icon-favorite_active"></span>
+      {% else %}
+        data-out="true">
+        <span class="icon-favorite"></span>
+      {% endif %}
+    </button>
   </div>
 </div>
