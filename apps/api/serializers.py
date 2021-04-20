@@ -2,7 +2,7 @@
 from rest_framework import serializers
 from rest_framework.fields import HiddenField, CurrentUserDefault
 
-from apps.recipes.models import Favorite, Follow
+from apps.recipes.models import Favorite, Follow, Purchase
 from apps.recipes.models import Ingredient
 
 
@@ -22,6 +22,17 @@ class FavoriteSerializer(CurrentUserDefault, serializers.ModelSerializer):
 
         fields = '__all__'
         model = Favorite
+
+
+class PurchaseSerializer(CurrentUserDefault, serializers.ModelSerializer):
+    user = HiddenField(default=CurrentUserDefault())
+
+    class Meta:
+        """Adds meta-information."""
+
+        fields = '__all__'
+        model = Purchase
+
 
 class FollowSerializer(CurrentUserDefault, serializers.ModelSerializer):
     user = HiddenField(default=CurrentUserDefault())

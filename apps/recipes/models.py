@@ -198,7 +198,6 @@ class Favorite(models.Model):
         verbose_name='Рецепт',
     )
 
-
     def __str__(self):
         """Return recipe composition info."""
         return f'Author "{self.user}", Recipe "{self.recipe}"'
@@ -244,3 +243,35 @@ class Follow(models.Model):
         verbose_name_plural = 'Подписчики'
         verbose_name = 'Подписчик'
 
+
+class Purchase(models.Model):
+    """
+    Stores recipes and ingredints links.
+
+    Related to :model:'recipes.Recipe', 'recipes.Ingredient'
+    """
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='purchase',
+        verbose_name='Пользователь',
+    )
+
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='purchase',
+        verbose_name='Рецепт',
+    )
+
+    def __str__(self):
+        """Return purchase info."""
+        return f'Author "{self.user}", Recipe "{self.recipe}"'
+
+    class Meta():
+        """Adds meta-information."""
+
+        unique_together = ('user', 'recipe',)
+        verbose_name_plural = 'Список покупок'
+        verbose_name = 'Покупка'

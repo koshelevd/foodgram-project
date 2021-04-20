@@ -1,15 +1,20 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
 from apps.recipes.forms import RecipeForm, TagForm
-from apps.recipes.models import Recipe, Tag, User, Follow
+from apps.recipes.models import Recipe, Tag, User, Follow, Purchase
+
+
+class PurchaseList(ListView):
+    model = Purchase
 
 
 class FollowList(ListView):
     model = Follow
-    paginate_by = 3
+    paginate_by = 6
 
 
 class RecipeList(ListView):
@@ -28,6 +33,7 @@ class RecipeList(ListView):
         context = super().get_context_data(**kwargs)
         context['tags'] = Tag.objects.all()
         context['form'] = TagForm(self.request.GET or None)
+
         return context
 
 
@@ -68,7 +74,6 @@ class RecipeDetail(DetailView):
 
 @login_required
 def add_or_edit_recipe(request, username=None, slug=None):
-    print(request.POST or None)
     recipe = None
     if username is not None and slug is not None:
         recipe = get_object_or_404(Recipe,
@@ -89,36 +94,17 @@ def add_or_edit_recipe(request, username=None, slug=None):
                       'recipe': recipe,
                   })
 
-# def index(request):
-#     recipes_list = Recipe.objects.all()
-#     paginator = Paginator(recipes_list, 6)
-#     page_number = request.GET.get('page')
-#     page = paginator.get_page(page_number)
-#     return render(
-#         request,
-#         'recipes/recipe_list.html',
-#         {
-#             'page': page,
-#             'paginator': paginator,
-#         }
-#     )
 
-# def recipe_view(request, username, slug):
-#     recipe = get_object_or_404(Recipe, slug=slug, author__username=username)
-#     return render(
-#         request,
-#         'recipes/recipe_detail.html',
-#         {
-#             'recipe': recipe,
-#         }
-#     )
+@login_required
+def shoplist_pdf(request):
+    ingredients = request.user.purchase.select_related(
+        'recipe'
+    ).order_by(
+        'recipe__ingredients__name'
+    ).values(
+        'recipe__ingredients__name', 'recipe__ingredients__unit'
+    ).annotate(quantity=Sum('recipe__composition__quantity')).all()
 
-# class RecipeView(CreateView, LoginRequiredMixin):
-#     form_class = RecipeForm
-#     template_name = 'recipes/new_recipe.html'
-#     success_url = '/'
-#
-#     def form_valid(self, form):
-#         form.instance.author = self.request.user
-#         form.instance.slug = slugify(form.cleaned_data['title'])
-#         return super().form_valid(form)
+    print(ingredients)
+
+    return redirect(reverse('purchases'))

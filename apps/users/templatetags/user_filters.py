@@ -4,7 +4,7 @@ from django import template
 
 from urllib.parse import urlencode
 
-from apps.recipes.models import Favorite
+from apps.recipes.models import Favorite, Purchase, Follow
 
 register = template.Library()
 
@@ -15,6 +15,17 @@ def url_replace(context, **kwargs):
     query.update(kwargs)
     return query.urlencode()
 
+@register.filter
+def shopcounter(user):
+    return Purchase.objects.filter(user=user).count()
+
+@register.filter
+def isfollowing(author, user):
+    return Follow.objects.filter(author=author, user=user).exists()
+
+@register.filter
+def ispurchased(recipe, user):
+    return Purchase.objects.filter(recipe=recipe, user=user).exists()
 
 @register.filter
 def isfavorite(recipe, user):

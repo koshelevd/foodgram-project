@@ -12,11 +12,12 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from . import views
-from .views import FavoritesView, FollowView
+from .views import FavoritesView, FollowView, PurchaseView
 
 router = DefaultRouter()
 
 router.register('favorites', FavoritesView)
+router.register('purchases', PurchaseView)
 router.register('subscriptions', FollowView)
 
 urlpatterns_api_v1 = [

@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from django.core.exceptions import ValidationError, BadRequest
 from django.db import transaction, IntegrityError
 from django.forms import ModelForm, Textarea, \
@@ -28,7 +30,10 @@ class RecipeForm(ModelForm):
             with transaction.atomic():
                 recipe = super().save(commit=commit)
                 recipe.author = user
-                recipe.slug = slugify(self.cleaned_data['title'])
+                slug = slugify(self.cleaned_data['title'])
+                if Recipe.objects.filter(slug=slug).exists():
+                    slug = uuid4()
+                recipe.slug = slug
                 recipe.save()
                 self.delete_compositions(recipe)
                 self.update_or_create_compositions(recipe)
@@ -46,8 +51,6 @@ class RecipeForm(ModelForm):
             else:
                 del self.ingredients[row.ingredient.name]
 
-
-
     def update_or_create_compositions(self, recipe):
         compositions_to_create = []
         for ingredient_name, quantity in self.ingredients.items():
@@ -57,17 +60,17 @@ class RecipeForm(ModelForm):
                                             ingredient=ingredient,
                                             quantity=quantity)
             compositions_to_create.append(composition)
-            RecipeComposition.objects.bulk_create(compositions_to_create)
+        RecipeComposition.objects.bulk_create(compositions_to_create)
 
     def clean(self):
         self.get_ingredients()
         cleaned_data = super().clean()
-        if 'ingredients' in self.errors:
-            del self.errors['ingredients']
-
-        if not self.ingredients:
-            error_message = ValidationError('Ingredients are empty!')
-            self.add_error('ingredients', error_message)
+        # if 'ingredients' in self.errors:
+        #     del self.errors['ingredients']
+        #
+        # if not self.ingredients:
+        error_message = ValidationError('Ingredients are empty!')
+        self.add_error(None, error_message)
 
         return cleaned_data
 
@@ -79,7 +82,7 @@ class RecipeForm(ModelForm):
 
     class Meta:
         model = Recipe
-        fields = ('title', 'description', 'tags', 'image', 'time', 'slug')
+        fields = ('title', 'description', 'tags', 'image', 'time', 'slug',)
         widgets = {
             'description': Textarea(attrs={'rows': 8}),
             'tags': CheckboxSelectMultiple(),

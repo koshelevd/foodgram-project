@@ -7,7 +7,7 @@ class Api {
     };
   }
   getPurchases() {
-    return fetch(`${this._apiUrl}purchases`, {
+    return fetch(`${this._apiUrl}purchases/`, {
       headers: this._headers,
     })
       .then(e => {
@@ -18,11 +18,11 @@ class Api {
       })
   }
   addPurchases(id) {
-    return fetch(`${this._apiUrl}purchases`, {
+    return fetch(`${this._apiUrl}purchases/`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        id: id
+        recipe: id
       })
     })
       .then(e => {
@@ -33,7 +33,7 @@ class Api {
       })
   }
   removePurchases(id) {
-    return fetch(`${this._apiUrl}purchases/${id}`, {
+    return fetch(`${this._apiUrl}purchases/${id}/`, {
       method: 'DELETE',
       headers: this._headers,
     })
@@ -87,7 +87,7 @@ class Api {
       })
   }
   removeFavorites(id) {
-    return fetch(`${this._apiUrl}favorites/${id}`, {
+    return fetch(`${this._apiUrl}favorites/${id}/`, {
       method: 'DELETE',
       headers: this._headers,
     })
