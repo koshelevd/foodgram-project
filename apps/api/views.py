@@ -4,22 +4,32 @@ from rest_framework import mixins, viewsets, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from apps.api.models import Favorite
-from apps.api.serializers import IngredientSerializer, FavoriteSerializer
-from apps.recipes.models import Ingredient
+
+from apps.api.serializers import IngredientSerializer, FavoriteSerializer, \
+    FollowSerializer
+from apps.recipes.models import Ingredient, Favorite, Follow
 
 
-class FavoritesView(mixins.CreateModelMixin,
+class CreateDestroyView(mixins.CreateModelMixin,
                     mixins.DestroyModelMixin,
                     viewsets.GenericViewSet):
-    queryset = Favorite.objects.all()
-    serializer_class = FavoriteSerializer
-    lookup_field = 'recipe'
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response(data={}, status=status.HTTP_200_OK)
+
+class FavoritesView(CreateDestroyView):
+    queryset = Favorite.objects.all()
+    serializer_class = FavoriteSerializer
+    lookup_field = 'recipe'
+
+
+class FollowView(CreateDestroyView):
+    queryset = Follow.objects.all()
+    serializer_class = FollowSerializer
+    lookup_field = 'author'
+
 
 
 @api_view(['GET'])

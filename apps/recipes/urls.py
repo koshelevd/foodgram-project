@@ -8,6 +8,8 @@ urlpatterns = [
     path('favorites/', views.FavoritesList.as_view(), name='favorites'),
     path('<str:username>/recipes/', views.AuthorList.as_view(),
          name='authorlist'),
+    path('subscriptions/', views.FollowList.as_view(),
+         name='subscriptions'),
     # path('<str:username>/recipe/<slug:slug>/',
     #      views.recipe_view,
     #      name='recipe'),

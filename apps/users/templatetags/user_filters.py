@@ -1,8 +1,10 @@
 """Application 'users' filters."""
 from django import template
 
-from apps.api.models import Favorite
+
 from urllib.parse import urlencode
+
+from apps.recipes.models import Favorite
 
 register = template.Library()
 

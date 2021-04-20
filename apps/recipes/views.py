@@ -4,7 +4,12 @@ from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
 from apps.recipes.forms import RecipeForm, TagForm
-from apps.recipes.models import Recipe, Tag, User
+from apps.recipes.models import Recipe, Tag, User, Follow
+
+
+class FollowList(ListView):
+    model = Follow
+    paginate_by = 3
 
 
 class RecipeList(ListView):
@@ -47,8 +52,15 @@ class AuthorList(RecipeList):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['author'] = get_object_or_404(User, username=self.kwargs['username'])
+        author = get_object_or_404(User, username=self.kwargs['username'])
+        context['author'] = author
+        following = (Follow.objects.filter(author=author,
+                                           user=self.request.user).exists()
+                     if self.request.user.is_authenticated
+                     else False)
+        context['following'] = following
         return context
+
 
 class RecipeDetail(DetailView):
     model = Recipe
@@ -63,13 +75,12 @@ def add_or_edit_recipe(request, username=None, slug=None):
                                    author__username=username,
                                    slug=slug)
 
-    recipe_form = RecipeForm(request.POST or None, request.FILES or None, instance=recipe)
-
+    recipe_form = RecipeForm(request.POST or None, request.FILES or None,
+                             instance=recipe)
 
     if recipe_form.is_valid():
         recipe = recipe_form.save(request.user, commit=False)
         return redirect(reverse('recipe', args=(recipe.author, recipe.slug)))
-
 
     return render(request,
                   'recipes/new_recipe.html',
@@ -77,7 +88,6 @@ def add_or_edit_recipe(request, username=None, slug=None):
                       'form': recipe_form,
                       'recipe': recipe,
                   })
-
 
 # def index(request):
 #     recipes_list = Recipe.objects.all()
@@ -112,5 +122,3 @@ def add_or_edit_recipe(request, username=None, slug=None):
 #         form.instance.author = self.request.user
 #         form.instance.slug = slugify(form.cleaned_data['title'])
 #         return super().form_valid(form)
-
-
