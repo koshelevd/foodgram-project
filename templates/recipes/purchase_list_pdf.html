@@ -1,0 +1,33 @@
+
+
+<style>
+.main__title { font-family: Courier }
+</style>
+
+{% block content %}
+  <main class="main container">
+    <div class="main__header">
+      <h1 class="main__title" style="font-family: Helvetica;">
+        Список покупок
+      </h1>
+    </div>
+    <div class="card-list card-list_column">
+      <ul class="shopping-list">
+        {% for ingredient in ingredients %}
+          <li class="shopping-list__item" data-id="{{ purchase.recipe.id }}">
+            <div class="recipe recipe_reverse">
+              <h3 class="recipe__title" style="max-width: 300px;">
+                {{ ingredient.recipe__ingredients__name }},
+                {{ ingredient.recipe__ingredients__unit }}
+              </h3>
+            </div>
+            <p class="shopping-list__button link">
+              {{ ingredient.quantity|floatformat }}
+            </p>
+          </li>
+        {% endfor %}
+      </ul>
+
+    </div>
+  </main>
+{% endblock %}

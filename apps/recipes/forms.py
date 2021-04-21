@@ -68,9 +68,9 @@ class RecipeForm(ModelForm):
         # if 'ingredients' in self.errors:
         #     del self.errors['ingredients']
         #
-        # if not self.ingredients:
-        error_message = ValidationError('Ingredients are empty!')
-        self.add_error(None, error_message)
+        if not self.ingredients:
+            error_message = ValidationError('Ingredients are empty!')
+            self.add_error(None, error_message)
 
         return cleaned_data
 

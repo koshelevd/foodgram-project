@@ -28,27 +28,29 @@
       </p>
     </div>
   </div>
-  <div class="card__footer">
-    {% load user_filters %}
-    {% if recipe|ispurchased:user %}
-      <button class="button button_style_light-blue-outline" name="purchases">
-        <span class="icon-check button__icon"></span>
-        Рецепт добавлен
-      </button>
-    {% else %}
-      <button class="button button_style_light-blue" name="purchases" data-out>
-        <span class="icon-plus button__icon"></span>
-        Добавить в покупки
-      </button>
-    {% endif %}
-    <button class="button button_style_none" name="favorites"
-      {% if recipe|isfavorite:user %}
-        >
-        <span class="icon-favorite icon-favorite_active"></span>
+  {% if user.is_authenticated %}
+    <div class="card__footer">
+      {% load user_filters %}
+      {% if recipe|ispurchased:user %}
+        <button class="button button_style_light-blue-outline" name="purchases">
+          <span class="icon-check button__icon"></span>
+          Рецепт добавлен
+        </button>
       {% else %}
-        data-out="true">
-        <span class="icon-favorite"></span>
+        <button class="button button_style_light-blue" name="purchases" data-out>
+          <span class="icon-plus button__icon"></span>
+          Добавить в покупки
+        </button>
       {% endif %}
-    </button>
-  </div>
+      <button class="button button_style_none" name="favorites"
+        {% if recipe|isfavorite:user %}
+          >
+          <span class="icon-favorite icon-favorite_active"></span>
+        {% else %}
+          data-out="true">
+          <span class="icon-favorite"></span>
+        {% endif %}
+      </button>
+    </div>
+  {% endif %}
 </div>

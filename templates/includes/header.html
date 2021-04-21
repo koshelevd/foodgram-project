@@ -2,23 +2,29 @@
   <nav class="nav">
     <div class="nav__container container">
       <ul class="nav__items list">
-        <li class="nav__item nav__item_active"><a href="{% url 'index' %}"
+        {% load user_filters %}
+        <li class="nav__item {% active_page request 'index' %}"><a
+          href="{% url 'index' %}"
                                                   class="nav__link link">Рецепты</a></li>
         {% if user.is_authenticated %}
-        <li class="nav__item"><a href="{% url 'subscriptions' %}"
+        <li class="nav__item {% active_page request 'subscriptions' %}"><a
+            href="{% url 'subscriptions' %}"
                                  class="nav__link link">Мои подписки</a></li>
-        <li class="nav__item"><a href="{% url 'add_recipe' %}"
+        <li class="nav__item {% active_page request 'add_recipe' %}"><a
+            href="{% url 'add_recipe' %}"
                                  class="nav__link link">Создать рецепт</a></li>
-        <li class="nav__item"><a href="{% url 'favorites' %}"
+        <li class="nav__item {% active_page request 'favorites' %}"><a
+            href="{% url 'favorites' %}"
                                  class="nav__link link">Избранное</a></li>
-        {% endif %}
-        <li class="nav__item"><a href="{% url 'purchases' %}"
+        <li class="nav__item {% active_page request 'purchases' %}"><a
+            href="{% url 'purchases' %}"
                                  class="nav__link link">Список покупок</a>
             <span class="badge badge_style_blue nav__badge" id="counter">
               {% load user_filters %}
               {{ user|shopcounter }}
             </span>
         </li>
+        {% endif %}
       </ul>
       <ul class="nav__items list">
         {% if user.is_authenticated %}

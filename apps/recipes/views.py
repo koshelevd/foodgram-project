@@ -1,11 +1,18 @@
+import io
+
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
+from django.http import FileResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
 from apps.recipes.forms import RecipeForm, TagForm
 from apps.recipes.models import Recipe, Tag, User, Follow, Purchase
+
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase import ttfonts
 
 
 class PurchaseList(ListView):
@@ -24,9 +31,7 @@ class RecipeList(ListView):
     def get_queryset(self):
         default_filter = [tag.pk for tag in Tag.objects.all()]
         filter = self.request.GET.getlist('tags', default_filter)
-        print(filter)
         queryset = Recipe.objects.filter(tags__in=filter).distinct()
-        print(queryset)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -105,6 +110,32 @@ def shoplist_pdf(request):
         'recipe__ingredients__name', 'recipe__ingredients__unit'
     ).annotate(quantity=Sum('recipe__composition__quantity')).all()
 
-    print(ingredients)
+    buffer = io.BytesIO()
+
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer)
+    MyFontObject = ttfonts.TTFont('Arial', 'arial.ttf')
+    pdfmetrics.registerFont(MyFontObject)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    # uniLine = unicode('Список покупок:', 'latin-1')
+    p.setFont('Arial', 40)
+    p.drawString(150, 800, 'Список покупок')
+    p.setFont('Arial', 20)
+    for pos, val in enumerate(ingredients):
+        string = (f'{pos+1}. {val["recipe__ingredients__name"]} '
+                  f'({val["recipe__ingredients__unit"]}): '
+                  f'{val["quantity"] }')
+        p.drawString(50, 750 - 50 * pos, string)
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
 
     return redirect(reverse('purchases'))
