@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %} Страница не найдена {% endblock %}
+{% load static %}
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% endblock %}
+{% block main %}
+  <div class="main__header">
+    <h1 class="main__title">404 страница не найдена</h1>
+  </div>
+  <div class="custom-center-block">
+    <div class="custom-button-block">
+      <a href="{% url 'index' %}" class="button button_style_blue">Перейти на главную</a>
+    </div>
+  </div>
+
+{% endblock %}

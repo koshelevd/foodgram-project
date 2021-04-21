@@ -12,14 +12,14 @@ SECRET_KEY = config('SECRET_KEY', default='the-best-secret-key')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    "[::1]",
-    "testserver",
+    'localhost',
+    '127.0.0.1',
+    '"[::1]',
+    'testserver',
 ]
 
 INTERNAL_IPS = [
-    "127.0.0.1",
+    '127.0.0.1',
 ]
 
 

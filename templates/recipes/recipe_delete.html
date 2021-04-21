@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %} Удаление рецепта {% endblock %}
+{% load static %}
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% endblock %}
+{% block main %}
+  <div class="main__header">
+    <h1 class="main__title">Удалить рецепт?</h1>
+  </div>
+  <div class="custom-center-block">
+    <div class="custom-button-block">
+      <a href="{% url 'delete_recipe' username slug %}" class="button button_style_blue">Да, удалить</a>
+      <a href="{% url 'index' %}" class="button button_style_light_blue">Перейти на главную</a>
+    </div>
+  </div>
+
+{% endblock %}

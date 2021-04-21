@@ -9,8 +9,5 @@ class SignUp(CreateView):
     """Display sign up form for new user."""
 
     form_class = CreationForm
-    success_url = reverse_lazy("login")
-    template_name = "signup.html"
-
-def test(request):
-    return render(request, 'registration/password_change_done.html', {})
+    success_url = reverse_lazy('login')
+    template_name = 'users/signup.html'

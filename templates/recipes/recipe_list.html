@@ -24,7 +24,7 @@
     </h1>
     {% include 'recipes/includes/filter.html' %}
   </div>
-  {% if author %}
+  {% if user.is_authenticated and author %}
     <div class="author-subscribe" data-author="{{ author.id }}">
       <p style="padding: 0 0 2em 0;">
         {% load user_filters %}
@@ -41,7 +41,7 @@
   {% endif %}
   <div class="card-list">
     {% for recipe in object_list %}
-      {% include "recipes/recipe_card.html" with recipe=recipe %}
+      {% include "recipes/includes/recipe_card.html" with recipe=recipe %}
     {% endfor %}
   </div>
   {% if is_paginated %}
@@ -58,9 +58,7 @@
   <script src="{% static 'js/components/SingleCard.js' %}"></script>
   <script src="{% static 'js/components/Purchases.js' %}"></script>
   {% if user.is_authenticated %}
-
     <script src="{% static 'js/components/Favorites.js' %}"></script>
-
     {% if author %}
       <script src="{% static 'js/components/Subscribe.js' %}"></script>
       <script src="{% static 'js/components/AuthorRecipe.js' %}"></script>

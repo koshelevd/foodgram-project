@@ -1,6 +1,6 @@
+"""Contains models to provide an Object-relational Mapping in 'foodgram'."""
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.utils.text import slugify
 
 User = get_user_model()
 
@@ -8,8 +8,6 @@ User = get_user_model()
 class Recipe(models.Model):
     """
     Stores a single Recipe entry.
-
-    Related to :model:'auth.User' and :model:'recipes.Tag'. !!!
     """
 
     title = models.CharField(
@@ -21,11 +19,13 @@ class Recipe(models.Model):
     )
     pub_date = models.DateTimeField(
         auto_now_add=True,
+        db_index=True,
         verbose_name='Дата публикации',
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        db_index=True,
         related_name='recipes',
         verbose_name='Автор',
     )
@@ -38,36 +38,30 @@ class Recipe(models.Model):
     )
     tags = models.ManyToManyField(
         'Tag',
+        db_index=True,
         related_name='recipes',
         verbose_name='Тэги',
     )
-
     image = models.ImageField(
         upload_to='recipes/',
         verbose_name='Изображение',
     )
-    time = models.IntegerField(
+    time = models.PositiveSmallIntegerField(
         verbose_name='Время приготовления',
     )
     slug = models.SlugField(
         max_length=250,
+        db_index=True,
         blank=True,
         unique=True,
         verbose_name='ЧПУ рецепта',
     )
-
-    # def save(self, *args, **kwargs):
-    #     if not self.id:
-    #         self.slug = slugify(self.title)
-    #         super(Recipe, self).save(*args, **kwargs)
 
     def __str__(self):
         """Return recipes's info."""
         return f'pk={self.pk} by {self.author}, {self.pub_date}'
 
     class Meta():
-        """Adds meta-information."""
-
         ordering = ('-pub_date',)
         verbose_name_plural = 'Рецепты'
         verbose_name = 'Рецепт'
@@ -78,6 +72,7 @@ class Tag(models.Model):
 
     title = models.CharField(
         max_length=200,
+        db_index=True,
         verbose_name='Название тэга',
     )
     slug = models.SlugField(
@@ -103,8 +98,6 @@ class Tag(models.Model):
         return self.title
 
     class Meta():
-        """Adds meta-information."""
-
         verbose_name_plural = 'Тэги'
         verbose_name = 'Тэг'
 
@@ -114,6 +107,7 @@ class Ingredient(models.Model):
 
     name = models.CharField(
         max_length=200,
+        db_index=True,
         verbose_name='Название ингредиента',
     )
     unit = models.CharField(
@@ -131,8 +125,6 @@ class Ingredient(models.Model):
         return f'{self.name}, {self.unit}'
 
     class Meta():
-        """Adds meta-information."""
-
         verbose_name_plural = 'Ингредиенты'
         verbose_name = 'Ингредиент'
 
@@ -140,13 +132,12 @@ class Ingredient(models.Model):
 class RecipeComposition(models.Model):
     """
     Stores recipes and ingredints links.
-
-    Related to :model:'recipes.Recipe', 'recipes.Ingredient'
     """
 
     recipe = models.ForeignKey(
         'Recipe',
         on_delete=models.CASCADE,
+        db_index=True,
         related_name='composition',
         verbose_name='Рецепт',
     )
@@ -170,8 +161,6 @@ class RecipeComposition(models.Model):
                 f'ingredient="{self.ingredient}"')
 
     class Meta():
-        """Adds meta-information."""
-
         unique_together = ('recipe', 'ingredient',)
         verbose_name_plural = 'Составы рецептов'
         verbose_name = 'Состав рецепта'
@@ -180,13 +169,12 @@ class RecipeComposition(models.Model):
 class Favorite(models.Model):
     """
     Stores recipes and ingredints links.
-
-    Related to :model:'recipes.Recipe', 'recipes.Ingredient'
     """
 
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        db_index=True,
         related_name='favorite',
         verbose_name='Пользователь',
     )
@@ -203,8 +191,6 @@ class Favorite(models.Model):
         return f'Author "{self.user}", Recipe "{self.recipe}"'
 
     class Meta():
-        """Adds meta-information."""
-
         unique_together = ('user', 'recipe',)
         verbose_name_plural = 'Избранное'
         verbose_name = 'Избранное'
@@ -213,13 +199,12 @@ class Favorite(models.Model):
 class Follow(models.Model):
     """
     Stores followers and followings links.
-
-    Related to :model:'auth.User'.
     """
 
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        db_index=True,
         related_name='following',
         verbose_name='Автор',
     )
@@ -246,14 +231,13 @@ class Follow(models.Model):
 
 class Purchase(models.Model):
     """
-    Stores recipes and ingredints links.
-
-    Related to :model:'recipes.Recipe', 'recipes.Ingredient'
+    Stores recipes and users links.
     """
 
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        db_index=True,
         related_name='purchase',
         verbose_name='Пользователь',
     )
@@ -270,8 +254,6 @@ class Purchase(models.Model):
         return f'Author "{self.user}", Recipe "{self.recipe}"'
 
     class Meta():
-        """Adds meta-information."""
-
         unique_together = ('user', 'recipe',)
         verbose_name_plural = 'Список покупок'
         verbose_name = 'Покупка'

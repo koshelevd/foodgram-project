@@ -2,8 +2,7 @@
 from rest_framework import serializers
 from rest_framework.fields import HiddenField, CurrentUserDefault
 
-from apps.recipes.models import Favorite, Follow, Purchase
-from apps.recipes.models import Ingredient
+from apps.recipes.models import Favorite, Follow, Ingredient, Purchase
 
 
 class IngredientSerializer(serializers.ModelSerializer):
