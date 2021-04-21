@@ -114,11 +114,6 @@ class Ingredient(models.Model):
         max_length=50,
         verbose_name='Единица измерения',
     )
-    hasQuantity = models.BooleanField(
-        default=True,
-        null=True,
-        verbose_name='Содержит количество',
-    )
 
     def __str__(self):
         """Return overrided title of the ingredient."""
@@ -131,7 +126,7 @@ class Ingredient(models.Model):
 
 class RecipeComposition(models.Model):
     """
-    Stores recipes and ingredints links.
+    Stores recipes and ingredients links.
     """
 
     recipe = models.ForeignKey(

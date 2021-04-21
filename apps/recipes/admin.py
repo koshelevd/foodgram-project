@@ -92,7 +92,6 @@ class IngredientAdmin(admin.ModelAdmin):
         'pk',
         'name',
         'unit',
-        'hasQuantity',
     )
     search_fields = (
         'name',
