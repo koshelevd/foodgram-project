@@ -67,7 +67,7 @@
           <span class="form__ingredient-link"
                 id="addIng">Добавить ингредиент</span>
           <div class="form__field-group-ingredientes-container">
-            {% for item in recipe.composition.all %}
+            {% for item in recipe.compositions.all %}
               {% with forloop.counter as counter %}
                 <div class="form__field-item-ingredient" id="ing_{{ counter }}">
                   <span> {{ item.ingredient.name }} -

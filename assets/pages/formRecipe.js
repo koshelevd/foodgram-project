@@ -89,7 +89,6 @@ const cbEventInput = (elem) => {
           const items = e.map( elem => {
               return `<a class="form__item-list" data-val="${elem.unit}"">${elem.name}</a>`
           }).join(' ');
-          console.log(items);
           formDropdownItems.style.display = 'flex';
           formDropdownItems.innerHTML = items;
         }

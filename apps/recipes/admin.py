@@ -14,15 +14,11 @@ from apps.recipes.models import (
 admin.site.register((RecipeComposition, Favorite, Follow, Purchase))
 
 
-
 class CompositionInline(admin.TabularInline):
     """Inline class for ingredients in recipes."""
 
     model = RecipeComposition
     extra = 0
-
-
-
 
 
 @admin.register(Recipe)
