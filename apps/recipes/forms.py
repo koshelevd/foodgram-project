@@ -54,7 +54,7 @@ class RecipeForm(ModelForm):
 
     def delete_compositions(self, recipe):
         """Delete compositions in case of recipe's edit."""
-        existed_ingredients = recipe.composition.all()
+        existed_ingredients = recipe.compositions.all()
         for row in existed_ingredients:
             if (row.ingredient.name,
                 row.quantity) not in self.ingredients.items():

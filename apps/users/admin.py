@@ -1,3 +1,13 @@
+"""Application 'users' admin page configuration."""
 from django.contrib import admin
 
-# Register your models here.
+from apps.recipes.models import User
+
+admin.site.unregister(User)
+
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    """Manage users."""
+
+    list_filter = ('username', 'email',)

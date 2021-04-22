@@ -45,9 +45,9 @@ class FollowView(CreateDestroyView):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def api_get_ingredients(request):
-    query = request.GET.get('query', None)
+    query = request.GET.get('query')
     if query is not None:
-        ingredients = Ingredient.objects.all().filter(name__startswith=query)
+        ingredients = Ingredient.objects.filter(name__startswith=query)
         serializer = IngredientSerializer(ingredients, many=True)
         return JsonResponse(serializer.data, safe=False)
-    return Response({'error': 'Something went wrong'})
+    return Response({'error': 'query is empty'})

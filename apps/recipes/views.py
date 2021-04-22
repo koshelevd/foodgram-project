@@ -30,7 +30,7 @@ class RecipeList(ListView):
 
     def get_queryset(self):
         """Filter queryset by tags passed."""
-        default_filter = [tag.pk for tag in Tag.objects.all()]
+        default_filter = Tag.objects.values_list('id')
         posted_filter = self.request.GET.getlist('tags', default_filter)
         queryset = Recipe.objects.filter(tags__in=posted_filter).distinct()
         return queryset
@@ -48,8 +48,7 @@ class FavoritesList(LoginRequiredMixin, RecipeList):
     def get_queryset(self):
         """Filter only favorited recipes of the user."""
         queryset = super().get_queryset()
-        author = get_object_or_404(User, username=self.request.user)
-        all_favorites = author.favorite.all().values('recipe')
+        all_favorites = self.request.user.favorites.all().values('recipe')
         return queryset.filter(id__in=all_favorites)
 
     def get_context_data(self, **kwargs):
@@ -112,7 +111,7 @@ def add_or_edit_recipe(request, username=None, slug=None):
 
 @login_required
 def delete_confirm(request, username, slug):
-    """Ask user to confirm if he wants to delete the reciepe."""
+    """Ask user to confirm if he wants to delete the recipe."""
     return render(request,
                   'recipes/recipe_delete.html',
                   {
@@ -123,7 +122,7 @@ def delete_confirm(request, username, slug):
 
 @login_required
 def delete_recipe(request, username, slug):
-    """Delete the recepe."""
+    """Delete the recipe."""
     recipe = get_object_or_404(Recipe,
                                author__username=username,
                                slug=slug)
@@ -141,19 +140,6 @@ def shoplist_pdf(request):
         'recipe__ingredients__name'
     ).values(
         'recipe__ingredients__name', 'recipe__ingredients__unit'
-    ).annotate(quantity=Sum('recipe__composition__quantity')).all()
+    ).annotate(quantity=Sum('recipe__compositions__quantity')).all()
 
     return create_pdf(ingredients, 'shoplist.pdf')
-
-
-def page_not_found(request, exception):
-    """Display custom page if page not found."""
-    return render(
-        request,
-        'misc/404.html',
-        {
-            'path': request.path,
-            'exception': exception,
-        },
-        status=404
-    )

@@ -1,5 +1,6 @@
 """Contains models to provide an Object-relational Mapping in 'foodgram'."""
 from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator
 from django.db import models
 
 User = get_user_model()
@@ -57,14 +58,14 @@ class Recipe(models.Model):
         verbose_name='ЧПУ рецепта',
     )
 
-    def __str__(self):
-        """Return recipes's info."""
-        return f'pk={self.pk} by {self.author}, {self.pub_date}'
-
-    class Meta():
+    class Meta:
         ordering = ('-pub_date',)
         verbose_name_plural = 'Рецепты'
         verbose_name = 'Рецепт'
+
+    def __str__(self):
+        """Return recipes's info."""
+        return f'pk={self.pk} by {self.author}, {self.pub_date}'
 
 
 class Tag(models.Model):
@@ -93,13 +94,13 @@ class Tag(models.Model):
         verbose_name='Css постфикс тэга',
     )
 
+    class Meta:
+        verbose_name_plural = 'Тэги'
+        verbose_name = 'Тэг'
+
     def __str__(self):
         """Return overrided title of the tag."""
         return self.title
-
-    class Meta():
-        verbose_name_plural = 'Тэги'
-        verbose_name = 'Тэг'
 
 
 class Ingredient(models.Model):
@@ -115,13 +116,13 @@ class Ingredient(models.Model):
         verbose_name='Единица измерения',
     )
 
+    class Meta:
+        verbose_name_plural = 'Ингредиенты'
+        verbose_name = 'Ингредиент'
+
     def __str__(self):
         """Return overrided title of the ingredient."""
         return f'{self.name}, {self.unit}'
-
-    class Meta():
-        verbose_name_plural = 'Ингредиенты'
-        verbose_name = 'Ингредиент'
 
 
 class RecipeComposition(models.Model):
@@ -133,32 +134,36 @@ class RecipeComposition(models.Model):
         'Recipe',
         on_delete=models.CASCADE,
         db_index=True,
-        related_name='composition',
+        related_name='compositions',
         verbose_name='Рецепт',
     )
 
     ingredient = models.ForeignKey(
         'Ingredient',
         on_delete=models.CASCADE,
-        related_name='composition',
+        related_name='compositions',
         verbose_name='Ингредиент',
     )
 
     quantity = models.FloatField(
         blank=True,
         null=True,
+        validators=(MinValueValidator(0.0),),
         verbose_name='Количество',
     )
+
+    class Meta:
+        verbose_name_plural = 'Составы рецептов'
+        verbose_name = 'Состав рецепта'
+        constraints = [
+            models.UniqueConstraint(fields=('recipe', 'ingredient'),
+                                    name='unique_composition_link'),
+        ]
 
     def __str__(self):
         """Return recipe composition info."""
         return (f'Recipe "{self.recipe}", quantity="{self.quantity}"'
                 f'ingredient="{self.ingredient}"')
-
-    class Meta():
-        unique_together = ('recipe', 'ingredient',)
-        verbose_name_plural = 'Составы рецептов'
-        verbose_name = 'Состав рецепта'
 
 
 class Favorite(models.Model):
@@ -170,25 +175,28 @@ class Favorite(models.Model):
         User,
         on_delete=models.CASCADE,
         db_index=True,
-        related_name='favorite',
+        related_name='favorites',
         verbose_name='Пользователь',
     )
 
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name='favorite',
+        related_name='favorites',
         verbose_name='Рецепт',
     )
+
+    class Meta:
+        verbose_name_plural = 'Избранное'
+        verbose_name = 'Избранное'
+        constraints = [
+            models.UniqueConstraint(fields=('user', 'recipe'),
+                                    name='unique_favorites_link'),
+        ]
 
     def __str__(self):
         """Return recipe composition info."""
         return f'Author "{self.user}", Recipe "{self.recipe}"'
-
-    class Meta():
-        unique_together = ('user', 'recipe',)
-        verbose_name_plural = 'Избранное'
-        verbose_name = 'Избранное'
 
 
 class Follow(models.Model):
@@ -211,17 +219,18 @@ class Follow(models.Model):
         verbose_name='Подписчик',
     )
 
+    class Meta:
+        verbose_name_plural = 'Подписчики'
+        verbose_name = 'Подписчик'
+        constraints = [
+            models.UniqueConstraint(fields=('author', 'user'),
+                                    name='unique_follow_link'),
+        ]
+
     def __str__(self):
         """Return followers's info."""
         return (f'Follow "{self.author}", '
                 f'follower="{self.user}"')
-
-    class Meta():
-        """Adds meta-information."""
-
-        unique_together = ('author', 'user',)
-        verbose_name_plural = 'Подписчики'
-        verbose_name = 'Подписчик'
 
 
 class Purchase(models.Model):
@@ -233,22 +242,25 @@ class Purchase(models.Model):
         User,
         on_delete=models.CASCADE,
         db_index=True,
-        related_name='purchase',
+        related_name='purchases',
         verbose_name='Пользователь',
     )
 
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name='purchase',
+        related_name='purchases',
         verbose_name='Рецепт',
     )
+
+    class Meta:
+        verbose_name_plural = 'Список покупок'
+        verbose_name = 'Покупка'
+        constraints = [
+            models.UniqueConstraint(fields=('user', 'recipe'),
+                                    name='unique_purchase_link'),
+        ]
 
     def __str__(self):
         """Return purchase info."""
         return f'Author "{self.user}", Recipe "{self.recipe}"'
-
-    class Meta():
-        unique_together = ('user', 'recipe',)
-        verbose_name_plural = 'Список покупок'
-        verbose_name = 'Покупка'

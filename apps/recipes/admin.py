@@ -9,11 +9,10 @@ from apps.recipes.models import (
     Purchase,
     Recipe,
     RecipeComposition,
-    Tag,
-    User)
+    Tag)
 
 admin.site.register((RecipeComposition, Favorite, Follow, Purchase))
-admin.site.unregister(User)
+
 
 
 class CompositionInline(admin.TabularInline):
@@ -23,11 +22,7 @@ class CompositionInline(admin.TabularInline):
     extra = 0
 
 
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    """Manage users."""
 
-    list_filter = ('username', 'email',)
 
 
 @admin.register(Recipe)
