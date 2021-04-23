@@ -47,7 +47,7 @@ class RecipeAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         """Add annotated field."""
         queryset = super().get_queryset(request)
-        return queryset.annotate(in_favorites=Count('favorite'))
+        return queryset.annotate(in_favorites=Count('favorites'))
 
     def in_favorites_count(self, recipe):
         """Get favorites count."""

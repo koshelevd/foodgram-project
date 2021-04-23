@@ -34,7 +34,7 @@ function Ingredients() {
     };
     // Добавление элемента из инпута
     const addIngredient = (e) => {
-        if(nameIngredient.value && cantidad.value) {
+        if(nameIngredient.value) {
             const data = getValue();
             const elem = document.createElement('div');
             elem.classList.add('form__field-item-ingredient');
@@ -85,7 +85,6 @@ function Ingredients() {
 const cbEventInput = (elem) => {
     return api.getIngredients(elem.target.value).then( e => {
         if(e.length !== 0 ) {
-          console.log(e);
           const items = e.map( elem => {
               return `<a class="form__item-list" data-val="${elem.unit}"">${elem.name}</a>`
           }).join(' ');

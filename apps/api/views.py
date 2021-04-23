@@ -2,6 +2,7 @@
 from django.http import JsonResponse
 from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
@@ -16,6 +17,18 @@ class CreateDestroyView(mixins.CreateModelMixin,
                         mixins.DestroyModelMixin,
                         viewsets.GenericViewSet):
     permission_classes = (IsAuthenticated,)
+
+    def get_object(self, *args, **kwargs):
+        """Get object for current user."""
+        queryset = self.filter_queryset(self.get_queryset())
+        filter_kwargs = {
+            self.lookup_field: self.kwargs[self.lookup_field],
+            'user': self.request.user,
+        }
+
+        object = get_object_or_404(queryset, **filter_kwargs)
+        self.check_object_permissions(self.request, object)
+        return object
 
     def destroy(self, request, *args, **kwargs):
         """Add data to response."""

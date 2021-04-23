@@ -88,7 +88,11 @@ class RecipeForm(ModelForm):
         for key, ingredient_name in self.data.items():
             if key.startswith('nameIngredient'):
                 ingredient_value = self.data['valueIngredient' + key[14:]]
-                self.ingredients[ingredient_name] = float(ingredient_value)
+                try:
+                    self.ingredients[ingredient_name] = float(ingredient_value)
+                except ValueError:
+                    self.ingredients[ingredient_name] = None
+
 
     class Meta:
         model = Recipe

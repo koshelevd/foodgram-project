@@ -17,6 +17,10 @@ class FollowList(LoginRequiredMixin, ListView):
     model = Follow
     paginate_by = 6
 
+    def get_queryset(self):
+        """Filter queryset by current user."""
+        return Follow.objects.filter(user=self.request.user)
+
 
 class PurchaseList(LoginRequiredMixin, ListView):
     """ListView for recipes in shopping list."""
