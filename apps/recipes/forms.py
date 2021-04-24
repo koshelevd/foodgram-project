@@ -56,8 +56,8 @@ class RecipeForm(ModelForm):
         """Delete compositions in case of recipe's edit."""
         existed_ingredients = recipe.compositions.all()
         for row in existed_ingredients:
-            if (row.ingredient.name,
-                row.quantity) not in self.ingredients.items():
+            if ((row.ingredient.name, row.quantity) not in
+                    self.ingredients.items()):
                 row.delete()
             else:
                 del self.ingredients[row.ingredient.name]
@@ -92,7 +92,6 @@ class RecipeForm(ModelForm):
                     self.ingredients[ingredient_name] = float(ingredient_value)
                 except ValueError:
                     self.ingredients[ingredient_name] = None
-
 
     class Meta:
         model = Recipe

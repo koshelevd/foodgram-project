@@ -1,9 +1,6 @@
 from pathlib import Path
 
 from decouple import config
-import _locale
-_locale._getdefaultlocale = (lambda *args: ['ru_RU', 'utf8'])
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -75,30 +72,31 @@ DEFAULT_ENGINE = 'django.db.backends.sqlite3'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': config('DB_ENGINE', default=DEFAULT_ENGINE),
-        'ENGINE': DEFAULT_ENGINE,
-        'NAME': BASE_DIR / 'db.sqlite3',
-        # 'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
-        # 'USER': config('POSTGRES_USER', ''),
-        # 'PASSWORD': config('POSTGRES_PASSWORD', ''),
-        # 'HOST': config('DB_HOST', ''),
-        # 'PORT': config('DB_PORT', ''),
+        'ENGINE': config('DB_ENGINE', default=DEFAULT_ENGINE),
+        'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
+        'USER': config('POSTGRES_USER', ''),
+        'PASSWORD': config('POSTGRES_PASSWORD', ''),
+        'HOST': config('DB_HOST', ''),
+        'PORT': config('DB_PORT', ''),
     }
 }
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': ('django.contrib.auth.password_validation'
+                 '.UserAttributeSimilarityValidator'),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': ('django.contrib.auth.password_validation'
+                 '.MinimumLengthValidator'),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': ('django.contrib.auth.password_validation'
+                 '.CommonPasswordValidator'),
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': ('django.contrib.auth.password_validation'
+                 '.NumericPasswordValidator'),
     },
 ]
 

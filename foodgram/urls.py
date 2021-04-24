@@ -6,7 +6,7 @@ from django.urls import include, path
 
 from foodgram import settings
 
-handler404 = 'foodgram.views.page_not_found'
+handler404 = 'foodgram.views.page_not_found' # noqa
 
 urlpatterns = [
     path('admin/', admin.site.urls),
