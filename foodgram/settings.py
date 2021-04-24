@@ -9,10 +9,7 @@ SECRET_KEY = config('SECRET_KEY', default='the-best-secret-key')
 DEBUG = config('DEBUG', default=True)
 
 ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '"[::1]',
-    'testserver',
+    '*',
 ]
 
 INTERNAL_IPS = [
