@@ -55,7 +55,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           overwrite: true
-          source: './nginx_deploy.conf, ./docker-compose.yaml'
+          source: './nginx_deploy.conf, ./docker-compose.yaml, ./.env'
           target: 'code'
       - name: deploy project
         uses: appleboy/ssh-action@master
@@ -66,25 +66,6 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             cd ~/code
-            rm .env
-            touch .env
-            cat <<tmp >> .env
-            SECRET_KEY=${{ secrets.SECRET_KEY }}
-            EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }}
-            EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}
-            DB_NAME=${{ secrets.DB_NAME }}
-            POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-            EMAIL_HOST=smtp.yandex.ru
-            EMAIL_PORT=465
-            EMAIL_USE_SSL=True
-            SERVER_EMAIL=EMAIL_HOST_USER
-            DEFAULT_FROM_EMAIL=DEFAULT_FROM_EMAIL
-            DB_ENGINE=django.db.backends.postgresql
-            DB_HOST=db
-            DB_PORT=5432
-            DEBUG=False
-            tmp
             sudo docker-compose pull web
             sudo docker-compose down
             sudo docker-compose up --build -d
