@@ -69,12 +69,12 @@ DEFAULT_ENGINE = 'django.db.backends.sqlite3'
 
 DATABASES = {
     'default': {
-        'ENGINE': config('DB_ENGINE', default=DEFAULT_ENGINE),
-        'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
-        'USER': config('POSTGRES_USER', ''),
-        'PASSWORD': config('POSTGRES_PASSWORD', ''),
-        'HOST': config('DB_HOST', ''),
-        'PORT': config('DB_PORT', ''),
+        'ENGINE': config('DB_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': config('DB_NAME', 'postgres'),
+        'USER': config('POSTGRES_USER', 'postgres'),
+        'PASSWORD': config('POSTGRES_PASSWORD', 'postgres'),
+        'HOST': config('DB_HOST', 'db'),
+        'PORT': config('DB_PORT', '5432'),
     }
 }
 
