@@ -57,25 +57,6 @@ jobs:
           overwrite: true
           source: './nginx_deploy.conf, ./docker-compose.yaml'
           target: 'code'
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          envkey_EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
-          envkey_EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
-          envkey_DB_NAME: ${{ secrets.DB_NAME }}
-          envkey_POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          envkey_POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          envkey_EMAIL_HOST: 'smtp.yandex.ru'
-          envkey_EMAIL_PORT: '465'
-          envkey_EMAIL_USE_SSL: True
-          envkey_SERVER_EMAIL: 'EMAIL_HOST_USER'
-          envkey_DEFAULT_FROM_EMAIL: 'DEFAULT_FROM_EMAIL'
-          envkey_DB_ENGINE: 'django.db.backends.postgresql'
-          envkey_DB_HOST: 'db'
-          envkey_DB_PORT: '5432'
-          envkey_DEBUG: False
-          directory: ./code
       - name: deploy project
         uses: appleboy/ssh-action@master
         with:
