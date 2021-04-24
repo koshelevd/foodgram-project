@@ -15,7 +15,7 @@ def create_pdf(ingredients, filename):
     buffer = io.BytesIO()
     pdf_canvas = canvas.Canvas(buffer)
 
-    font = ttfonts.TTFont('Arial', os.path.join(settings.PROJECT_ROOT,
+    font = ttfonts.TTFont('Arial', os.path.join(settings.BASE_DIR,
                                                 'static', 'fonts',
                                                 'arial.ttf'))
     pdfmetrics.registerFont(font)
