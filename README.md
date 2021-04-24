@@ -1,5 +1,4 @@
-![YAMdb workflow](https://github.
-com/koshelevd/foodgram-project/actions/workflows/main.yml/badge.svg)
+![YAMdb workflow](https://github.com/koshelevd/foodgram-project/actions/workflows/main.yml/badge.svg)
 # Foodgram project
 
 Foodgram is a project about cooking, recipes and delicious food 
