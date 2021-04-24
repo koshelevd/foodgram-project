@@ -138,7 +138,7 @@ def delete_recipe(request, username, slug):
 @login_required
 def shoplist_pdf(request):
     """Select ingredients from shopping list and create pdf-document."""
-    ingredients = request.user.purchase.select_related(
+    ingredients = request.user.purchases.select_related(
         'recipe'
     ).order_by(
         'recipe__ingredients__name'
