@@ -1,0 +1,35 @@
+version: '3.3'
+
+volumes:
+  postgres_data:
+
+services:
+  db:
+    image: postgres:12.4
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+  web:
+    image: koshelevd/foodgram:latest
+    restart: always
+    command: gunicorn foodgram.wsgi:application --bind 0.0.0.0:8000
+    entrypoint: /prepare.sh
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+    volumes:
+      - ./static:/code/static
+      - ./media:/code/media
+  nginx:
+    image: nginx:1.19.9-alpine
+    restart: unless-stopped
+    volumes:
+      - ./nginx_deploy.conf:/etc/nginx/nginx.conf
+      - ./static:/var/www/django/static:ro
+      - ./media:/var/www/django/media:ro
+    depends_on:
+      - web
+    ports:
+      - 80:80

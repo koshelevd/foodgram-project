@@ -1,12 +1,15 @@
 from pathlib import Path
 
 from decouple import config
+import _locale
+_locale._getdefaultlocale = (lambda *args: ['ru_RU', 'utf8'])
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='the-best-secret-key')
 
-DEBUG = True
+DEBUG = config('DEBUG', default=True)
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -68,12 +71,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'foodgram.wsgi.application'
 
+DEFAULT_ENGINE = 'django.db.backends.sqlite3'
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        # 'ENGINE': config('DB_ENGINE', default=DEFAULT_ENGINE),
+        'ENGINE': DEFAULT_ENGINE,
         'NAME': BASE_DIR / 'db.sqlite3',
+        # 'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
+        # 'USER': config('POSTGRES_USER', ''),
+        # 'PASSWORD': config('POSTGRES_PASSWORD', ''),
+        # 'HOST': config('DB_HOST', ''),
+        # 'PORT': config('DB_PORT', ''),
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
