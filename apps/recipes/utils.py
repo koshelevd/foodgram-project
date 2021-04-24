@@ -1,6 +1,7 @@
 """Util functions for 'recipes' app."""
-import io
+import io, os
 
+from django.conf import settings
 from django.http import FileResponse
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics, ttfonts
@@ -13,7 +14,9 @@ def create_pdf(ingredients, filename):
     buffer = io.BytesIO()
     pdf_canvas = canvas.Canvas(buffer)
 
-    font = ttfonts.TTFont('Arial', 'arial.ttf')
+    font = ttfonts.TTFont('Arial', os.path.join(settings.PROJECT_ROOT,
+                                                'static', 'fonts',
+                                                'arial.ttf'))
     pdfmetrics.registerFont(font)
 
     pdf_canvas.setFont('Arial', 40)
