@@ -33,4 +33,4 @@ $ docker-compose run web python manage.py loaddata fixtures/fixtures.json
 ```
 
 ## Visit deployed project: 
-http://fixtures.koshelev.net
+http://foodgram.koshelev.net
