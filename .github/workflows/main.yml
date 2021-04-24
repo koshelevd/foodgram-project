@@ -44,6 +44,7 @@ jobs:
         envkey_DB_HOST: 'db'
         envkey_DB_PORT: '5432'
         envkey_DEBUG: False
+        directory: ./
 
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
