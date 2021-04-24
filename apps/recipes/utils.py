@@ -1,5 +1,6 @@
 """Util functions for 'recipes' app."""
-import io, os
+import io
+import os
 
 from django.conf import settings
 from django.http import FileResponse
