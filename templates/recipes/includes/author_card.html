@@ -33,7 +33,7 @@
   </div>
   <div class="card-user__footer">
     {% load user_filters %}
-    {% if author|isfollowing:user %}
+    {% if following.author|isfollowing:user %}
       <button class="button button_style_light-blue button_size_auto" name="subscribe">
         Отписаться от автора
     {% else %}
