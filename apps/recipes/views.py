@@ -26,6 +26,10 @@ class PurchaseList(LoginRequiredMixin, ListView):
     """ListView for recipes in shopping list."""
     model = Purchase
 
+    def get_queryset(self):
+        """Filter queryset by current user."""
+        return Purchase.objects.filter(user=self.request.user)
+
 
 class RecipeList(ListView):
     """ListView for recipes."""
