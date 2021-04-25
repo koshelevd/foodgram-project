@@ -46,7 +46,9 @@
         <li class="single-card__item">
           <p class="single-card__text">
             <span class="icon-user"></span>
-            {{ recipe.author.get_full_name }}
+            <a href="{% url 'authorlist' recipe.author %}" class="single-card__link">
+              {{ recipe.author.get_full_name }}
+            </a>
           </p>
         </li>
         {% if user.is_authenticated and user == recipe.author or user.is_superuser %}

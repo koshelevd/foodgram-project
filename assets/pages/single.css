@@ -40,6 +40,7 @@
 @import "../blocks/single-card/__section/single-card__section.css";
 @import "../blocks/single-card/__section-title/single-card__section-title.css";
 @import "../blocks/single-card/__section-text/single-card__section-text.css";
+@import "../blocks/single-card/__link/single-card__link.css";
 @import "../blocks/single-card/__favorite/single-card__favorite.css";
 @import "../blocks/single-card/__favorite-tooltip/single-card__favorite-tooltip.css";
 @import "../blocks/single-card/__section-item/single-card__section-item.css";
