@@ -105,7 +105,7 @@ function checkQuantity () {
   if (this.validity.valid) {
     ingredientsErrorMessage.textContent = '';
   } else {
-    ingredientsErrorMessage.textContent = 'Количество не может быть отрицательным';
+    ingredientsErrorMessage.textContent = 'Количество должно быть больше нуля';
   }
 }
 
