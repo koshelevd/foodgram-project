@@ -23,6 +23,7 @@ def active_page(request, view_name):
 def url_replace(context, **kwargs):
     """Encode URL with context."""
     query = context['request'].GET.copy()
+
     query.update(kwargs)
     return query.urlencode()
 
