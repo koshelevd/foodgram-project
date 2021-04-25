@@ -32,8 +32,14 @@
     </ul>
   </div>
   <div class="card-user__footer">
-    <button class="button button_style_light-blue button_size_auto"
-            name="subscribe">Отписаться
+    {% load user_filters %}
+    {% if author|isfollowing:user %}
+      <button class="button button_style_light-blue button_size_auto" name="subscribe">
+        Отписаться от автора
+    {% else %}
+      <button class="button button_style_light-blue button_size_auto" name="subscribe" data-out>
+      Подписаться на автора
+    {% endif %}
     </button>
   </div>
 </div>
