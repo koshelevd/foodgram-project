@@ -79,8 +79,12 @@ class RecipeForm(ModelForm):
         self.get_ingredients()
         cleaned_data = super().clean()
         if not self.ingredients:
-            error_message = ValidationError('Ingredients are empty!')
+            error_message = ValidationError('Ingredients are empty')
             self.add_error(None, error_message)
+        for value in self.ingredients.values():
+            if value <= 0:
+                error_message = ValidationError('Quantity must be positive')
+                self.add_error(None, error_message)
         return cleaned_data
 
     def get_ingredients(self):

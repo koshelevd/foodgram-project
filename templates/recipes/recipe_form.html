@@ -60,7 +60,7 @@
               <input type="text" id="nameIngredient" class="form__input">
               <div class="form__dropdown-items"></div>
             </div>
-            <input type="number" id="cantidad" class="form__input" min="0">
+            <input type="number" id="cantidad" class="form__input form__input_quantity" min="0">
             <label for="cantidad" class="form__label" id="cantidadVal"></label>
           </div>
 
@@ -90,7 +90,7 @@
 
 
           </div>
-          <span class="form__error">{{ form.ingredients.errors }}</span>
+          <span class="ingredients-error form__error">{{ form.ingredients.errors }}</span>
         </div>
       </div>
       <div class="form__group">
@@ -118,7 +118,6 @@
         <div class="form__field-group">
           {{ form.image }}
           <span class="form__error">{{ form.errors }}</span>
-          <span class="form__error">{{ form.non_field_errors  }}</span>
         </div>
       </div>
       <div class="form__footer">

@@ -1,0 +1,7 @@
+.form__input_quantity:invalid {
+    border: 1px solid red;
+}
+
+.form__input_quantity:valid {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}

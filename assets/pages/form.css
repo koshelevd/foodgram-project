@@ -28,6 +28,7 @@
 @import "../blocks/form/form.css";
 @import "../blocks/form/__label/form__label.css";
 @import "../blocks/form/__input/form__input.css";
+@import "../blocks/form/__input/_quantity/form__input_quantity.css";
 @import "../blocks/form/__error/form__error.css";
 @import "../blocks/form/__input-info/form__input-info.css";
 @import "../blocks/form/__group/form__group.css";

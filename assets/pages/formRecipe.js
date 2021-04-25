@@ -3,6 +3,7 @@ const counterId = document.querySelector('#counter');
 const ingredientsContainer = document.querySelector('.form__field-group-ingredientes-container');
 const nameIngredient = document.querySelector('#nameIngredient');
 const formDropdownItems = document.querySelector('.form__dropdown-items');
+const ingredientsErrorMessage = document.querySelector('.ingredients-error');
 const cantidadVal = document.querySelector('#cantidadVal');
 const cantidad = document.querySelector('#cantidad')
 const addIng = document.querySelector('#addIng');
@@ -34,7 +35,10 @@ function Ingredients() {
     };
     // Добавление элемента из инпута
     const addIngredient = (e) => {
-        if(nameIngredient.value) {
+        if(cantidad.value <= 0) {
+            ingredientsErrorMessage.textContent = 'Количество должно быть больше нуля';
+        }
+        else if(nameIngredient.value) {
             const data = getValue();
             const elem = document.createElement('div');
             elem.classList.add('form__field-item-ingredient');
@@ -97,6 +101,14 @@ const cbEventInput = (elem) => {
     })
 };
 
+function checkQuantity () {
+  if (this.validity.valid) {
+    ingredientsErrorMessage.textContent = '';
+  } else {
+    ingredientsErrorMessage.textContent = 'Количество не может быть отрицательным';
+  }
+}
+
 const eventInput = debouncing(cbEventInput, 1000);
 
 // вешаем апи
@@ -106,3 +118,5 @@ const ingredients = Ingredients();
 formDropdownItems.addEventListener('click', ingredients.dropdown);
 // вешаем слушатель на кнопку
 addIng.addEventListener('click', ingredients.addIngredient);
+
+cantidad.addEventListener('change', checkQuantity);
